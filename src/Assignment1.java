@@ -1,7 +1,7 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.GridLayout;
 
 public class Assignment1 {
     public static void main(String[] args){
@@ -19,18 +19,34 @@ class MainFrame extends JFrame implements ActionListener {
         setTitle("Student Records");
         setLayout(new GridLayout(3, 2));
         add = new JButton("Add");
+        add.setPreferredSize(new Dimension(100,50));
         add.addActionListener(this);
+
         display = new JButton("Display");
+        display.setPreferredSize(new Dimension(100,50));
+        display.addActionListener(this);
+
         update = new JButton("Update");
+        update.setPreferredSize(new Dimension(100,50));
+        update.addActionListener(this);
+
         delete = new JButton("Delete");
+        delete.setPreferredSize(new Dimension(100,50));
+        delete.addActionListener(this);
+
         list = new JButton("List");
+        list.setPreferredSize(new Dimension(100,50));
+        list.addActionListener(this);
+
         done = new JButton("Done");
         done.addActionListener(this);
 
         addDialog = new AddDialog(this);
-        addDialog.add(submit = new JButton("submit"));
-        submit.setLocation(250,250);
         addDialog.setLayout(null);
+
+        displayDialog = new DisplayDialog(this);
+
+
 
 
         add(add);
@@ -47,13 +63,18 @@ class MainFrame extends JFrame implements ActionListener {
             System.exit(0);
         }
 
-        if (e.getSource() == add) {
+        if (e.getSource() == add){
             addDialog.setVisible(true);
+        }
+
+        if(e.getSource() == display){
+            displayDialog.setVisible(true);
         }
     }
 
 
     private JButton add, display, update, delete, list, done, submit;
     private AddDialog addDialog;
+    private DisplayDialog displayDialog;
 }
 
