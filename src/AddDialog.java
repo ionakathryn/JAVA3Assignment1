@@ -1,10 +1,11 @@
 import javax.swing.JFrame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.*;
 
-public class AddDialog extends JDialog {
+public class AddDialog extends Dialog  {
 
 
     public AddDialog(JFrame f) {
@@ -58,7 +59,7 @@ public class AddDialog extends JDialog {
         studentNum.setLocation(200, 320);
         add(studentNum);
 
-        assesment_markL = new JLabel("enter assesment mark:");
+        assesment_markL = new JLabel("enter assesment_mark:");
         assesment_markL.setSize(100,50);
         assesment_markL.setLocation(50,400);
         add(assesment_markL);
@@ -68,7 +69,7 @@ public class AddDialog extends JDialog {
         assesment_mark.setLocation(200, 400);
         add(assesment_mark);
 
-        exam_markL = new JLabel("enter exam mark:");
+        exam_markL = new JLabel("enter exam_mark:");
         exam_markL.setSize(100,50);
         exam_markL.setLocation(50,480);
         add(exam_markL);
@@ -101,7 +102,6 @@ public class AddDialog extends JDialog {
         add(error);
 
 
-
     }
 
     handler handle = new handler();
@@ -115,11 +115,9 @@ public class AddDialog extends JDialog {
         public void actionPerformed(ActionEvent e){
             if (e.getSource() == exit){
                 System.exit(0);
-           }
+            }
 
             if (e.getSource() == submit){
-                count = 0;
-
                 System.out.println("test" + module_code.getText());
 
                 // validation tests
@@ -128,7 +126,6 @@ public class AddDialog extends JDialog {
                 validateTitle(title.getText());
                 validateIntVal(studentNum.getText());
                 validateIntVal(assesment_mark.getText());
-                validateIntVal(exam_mark.getText());
                 validateAll();
 
 
@@ -141,7 +138,7 @@ public class AddDialog extends JDialog {
 
 
     public void validateSurname(String input){
-        if (input.matches("^.*[^a-zA-Z].*$") || input.length() > 20) {
+        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 20) {
             JOptionPane.showMessageDialog(null, "please enter valid surname value - must contain all alphabetical chars" +
                     " and be max 20 chars in length");
         }
@@ -154,7 +151,7 @@ public class AddDialog extends JDialog {
     }
 
     public void validateInitials(String input){
-        if (input.matches("^.*[^a-zA-Z].*$") || input.length() > 6) {
+        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 6) {
             JOptionPane.showMessageDialog(null, "please enter valid initials value - must contain all alphabetical chars" +
                     " and be max 6 chars in length");
         }
@@ -167,7 +164,7 @@ public class AddDialog extends JDialog {
 
     public void validateTitle(String input){
         // make sure 6 chars and alphachars
-        if (input.matches("^.*[^a-zA-Z].*$") || input.length() > 6) {
+        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 6) {
             JOptionPane.showMessageDialog(null, "please enter valid title value - must contain all alphabetical chars" +
                     " and be max 6 chars in length");
         }
@@ -187,9 +184,19 @@ public class AddDialog extends JDialog {
     }
 
 
+    public void validateDoubleVal(String input){
+        try{
+            Double.parseDouble(input);
+            JOptionPane.showMessageDialog(null,"tuition fee valid");
+        }
+        catch(NumberFormatException n) {
+            JOptionPane.showMessageDialog(null, "please enter valid tuition fee");
+        }
+    }
+
     public void validateAll(){
-        if (count == 6){
-            JOptionPane.showMessageDialog(null,"OK to proceed with raf write");
+        if (count == 5){
+            System.out.println("OK to proceed with raf write");
            // writeFile();
         }
         else{
@@ -200,5 +207,5 @@ public class AddDialog extends JDialog {
 
   //  public void writeFile(){
 
-
+    }
 }
