@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.*;
 
-public class AddDialog extends Dialog  {
+public class AddDialog extends JDialog  {
 
 
     public AddDialog(JFrame f) {
@@ -118,8 +118,7 @@ public class AddDialog extends Dialog  {
             }
 
             if (e.getSource() == submit){
-                System.out.println("test" + module_code.getText());
-
+                count = 0;
                 // validation tests
                 validateSurname(surname.getText());
                 validateInitials(initials.getText());
@@ -138,7 +137,7 @@ public class AddDialog extends Dialog  {
 
 
     public void validateSurname(String input){
-        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 20) {
+        if (input.matches("^.*[^a-zA-Z ].*$") || input.length() > 20) {
             JOptionPane.showMessageDialog(null, "please enter valid surname value - must contain all alphabetical chars" +
                     " and be max 20 chars in length");
         }
@@ -151,7 +150,7 @@ public class AddDialog extends Dialog  {
     }
 
     public void validateInitials(String input){
-        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 6) {
+        if (input.matches("^.*[^a-zA-Z].*$") || input.length() > 6) {
             JOptionPane.showMessageDialog(null, "please enter valid initials value - must contain all alphabetical chars" +
                     " and be max 6 chars in length");
         }
@@ -164,7 +163,7 @@ public class AddDialog extends Dialog  {
 
     public void validateTitle(String input){
         // make sure 6 chars and alphachars
-        if (input.matches("^.*[^a-zA-Z0-9 ].*$") || input.length() > 6) {
+        if (input.matches("^.*[^a-zA-Z].*$") || input.length() > 6) {
             JOptionPane.showMessageDialog(null, "please enter valid title value - must contain all alphabetical chars" +
                     " and be max 6 chars in length");
         }
@@ -184,19 +183,10 @@ public class AddDialog extends Dialog  {
     }
 
 
-    public void validateDoubleVal(String input){
-        try{
-            Double.parseDouble(input);
-            JOptionPane.showMessageDialog(null,"tuition fee valid");
-        }
-        catch(NumberFormatException n) {
-            JOptionPane.showMessageDialog(null, "please enter valid tuition fee");
-        }
-    }
 
     public void validateAll(){
         if (count == 5){
-            System.out.println("OK to proceed with raf write");
+            JOptionPane.showMessageDialog(null,"OK to proceed with raf write");
            // writeFile();
         }
         else{
@@ -207,5 +197,5 @@ public class AddDialog extends Dialog  {
 
   //  public void writeFile(){
 
-    }
+  //  }
 }
