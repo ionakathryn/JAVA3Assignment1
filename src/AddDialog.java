@@ -185,7 +185,6 @@ public class AddDialog extends Dialog  {
 
 
     public void validateDoubleVal(String input){
-        // make sure int
         try{
             Double.parseDouble(input);
             JOptionPane.showMessageDialog(null,"tuition fee valid");
