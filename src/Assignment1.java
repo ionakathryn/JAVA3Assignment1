@@ -15,9 +15,12 @@ class MainFrame extends JFrame implements ActionListener {
         final int DEFAULT_FRAME_WIDTH = 500;
         final int DEFAULT_FRAME_HEIGHT = 500;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
         setSize(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT);
         setTitle("Student Records");
         setLayout(new GridLayout(3, 2));
+
         add = new JButton("Add");
         add.setPreferredSize(new Dimension(100,50));
         add.addActionListener(this);
@@ -73,7 +76,7 @@ class MainFrame extends JFrame implements ActionListener {
     }
 
 
-    private JButton add, display, update, delete, list, done, submit;
+    private JButton add, display, update, delete, list, done;
     private AddDialog addDialog;
     private DisplayDialog displayDialog;
 }
