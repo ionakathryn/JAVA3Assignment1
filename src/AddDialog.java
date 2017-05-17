@@ -4,14 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.*;
+import java.io.RandomAccessFile;
+import java.io.IOException;
 
 public class AddDialog extends JDialog  {
 
 
     public AddDialog(JFrame f) {
         super(f, true);
-        final int DEFAULT_DIALOG_WIDTH = 1000;
-        final int DEFAULT_DIALOG_HEIGHT = 700;
+        final int DEFAULT_DIALOG_WIDTH = 750;
+        final int DEFAULT_DIALOG_HEIGHT = 850;
         setSize(DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT);
         setTitle("addRecord");
         module_code = new JTextField("module_code");
@@ -79,19 +81,29 @@ public class AddDialog extends JDialog  {
         exam_mark.setLocation(200, 480);
         add(exam_mark);
 
+        tuition_feeL = new JLabel("enter tuition fee:");
+        tuition_feeL.setSize(100,50);
+        tuition_feeL.setLocation(50,560);
+        add(tuition_feeL);
+
+        tuition_fee = new JTextField("tuition fee:");
+        tuition_fee.setSize(100,50);
+        tuition_fee.setLocation(200,560);
+        add(tuition_fee);
+
         error = new JTextField("this is an error textfield");
         add(error);
 
         submit = new JButton("submit");
         submit.setSize(100,50);
-        submit.setLocation(50,560);
+        submit.setLocation(50,620);
         submit.addActionListener(handle);
         add(submit);
 
 
         exit = new JButton("exit");
         exit.setSize(100,50);
-        exit.setLocation(200,560);
+        exit.setLocation(200,620);
         exit.addActionListener(handle);
         add(exit);
 
@@ -106,10 +118,12 @@ public class AddDialog extends JDialog  {
 
     handler handle = new handler();
 
-    public JTextField error, module_code, surname, initials, title,studentNum, assesment_mark, exam_mark ;
+    public JTextField error, module_code, surname, initials, title,studentNum, assesment_mark, exam_mark, tuition_fee ;
     public JButton submit,exit;
-    public JLabel surnameL, initialsL,titleL,studentNumL,assesment_markL,exam_markL;
+    public JLabel surnameL, initialsL,titleL,studentNumL,assesment_markL,exam_markL, tuition_feeL;
     int count = 0;
+    int module_codeVal, studentNumVal, assesment_markVal, exam_markVal, tuition_feeVal;
+    String surnameVal, initialsVal, titleVal;
 
     public class handler implements ActionListener {
         public void actionPerformed(ActionEvent e){
@@ -187,7 +201,7 @@ public class AddDialog extends JDialog  {
     public void validateAll(){
         if (count == 5){
             JOptionPane.showMessageDialog(null,"OK to proceed with raf write");
-           // writeFile();
+            makeNewFile();
         }
         else{
             System.out.println(count);
@@ -195,7 +209,27 @@ public class AddDialog extends JDialog  {
 
     }
 
-  //  public void writeFile(){
+   public void makeNewFile(){
+    RandomAccessFile file = null;
+    int recSize = 96;
+    try{
+        file = new RandomAccessFile("students", "rw");
+        JOptionPane.showMessageDialog(null,"RandomAccessFile created succesfully!!!");
+    }
+    catch (IOException ioe){
+        System.out.println("error opening file!");
+        System.exit(1);
+    }
+
+    module_codeVal = Integer.parseInt(module_code.getText());
+    studentNumVal = Integer.parseInt(studentNum.getText());
+
+    }
+
+    
+
+
+
 
   //  }
 }
