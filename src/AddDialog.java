@@ -1,5 +1,5 @@
+
 import javax.swing.JFrame;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class AddDialog extends JDialog  {
 
 
-    public AddDialog(JFrame f) {
+    public AddDialog(JFrame f, boolean b) {
         super(f, true);
         final int DEFAULT_DIALOG_WIDTH = 750;
         final int DEFAULT_DIALOG_HEIGHT = 850;
@@ -107,6 +107,12 @@ public class AddDialog extends JDialog  {
         exit.addActionListener(handle);
         add(exit);
 
+        addUser = new JButton("add new user");
+        addUser.setSize(200,50);
+        addUser.setLocation(340,620);
+        addUser.addActionListener(handle);
+        add(addUser);
+
         error = new JTextField("error message goes here");
         error.setSize(300,150);
         error.setLocation(500,100);
@@ -119,10 +125,10 @@ public class AddDialog extends JDialog  {
     handler handle = new handler();
 
     public JTextField error, module_code, surname, initials, title,studentNum, assesment_mark, exam_mark, tuition_fee ;
-    public JButton submit,exit;
+    public JButton submit,exit, addUser;
     public JLabel surnameL, initialsL,titleL,studentNumL,assesment_markL,exam_markL, tuition_feeL;
     int count = 0;
-    int module_codeVal, studentNumVal, assesment_markVal, exam_markVal, tuition_feeVal;
+    int module_codeVal, studentNumVal, assesment_markVal, exam_markVal, tuition_feeVal, markVal;
     String surnameVal, initialsVal, titleVal;
 
     public class handler implements ActionListener {
@@ -131,23 +137,26 @@ public class AddDialog extends JDialog  {
                 System.exit(0);
             }
 
+            if(e.getSource() == addUser){
+                surname.setText(null);
+                initials.setText(null);
+            }
+
             if (e.getSource() == submit){
                 count = 0;
                 // validation tests
+                JOptionPane.showMessageDialog(null, surname.getText());
                 validateSurname(surname.getText());
                 validateInitials(initials.getText());
                 validateTitle(title.getText());
                 validateIntVal(studentNum.getText());
                 validateIntVal(assesment_mark.getText());
                 validateAll();
-
-
-
-            }
-
             }
 
         }
+
+    }
 
 
     public void validateSurname(String input){
@@ -201,6 +210,9 @@ public class AddDialog extends JDialog  {
     public void validateAll(){
         if (count == 5){
             JOptionPane.showMessageDialog(null,"OK to proceed with raf write");
+            // does module_code exist?
+            // if yes, append to existing file
+            // if no, create new file
             makeNewFile();
         }
         else{
@@ -208,28 +220,43 @@ public class AddDialog extends JDialog  {
         }
 
     }
-
-   public void makeNewFile(){
     RandomAccessFile file = null;
-    int recSize = 96;
-    try{
-        file = new RandomAccessFile("students", "rw");
-        JOptionPane.showMessageDialog(null,"RandomAccessFile created succesfully!!!");
+    public void makeNewFile(){
+
+        int recSize = 96;
+        try{
+            file = new RandomAccessFile("file.txt", "rw");
+            JOptionPane.showMessageDialog(null,"RandomAccessFile " + module_code.getText() + " created succesfully!!!");
+        }
+        catch (IOException ioe){
+            System.out.println("error opening file!");
+            System.exit(1);
+        }
+        try {
+            write();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    catch (IOException ioe){
-        System.out.println("error opening file!");
-        System.exit(1);
+
+
+    public void write() throws IOException{
+        file.writeInt(Integer.parseInt(studentNum.getText()));
+        if(initials.getText().length() < 6){
+            for (int i = initials.getText().length(); i < 6; i++){
+                file.writeChar(' ');
+            }
+        }
+        else{
+            file.writeChars(initials.getText().substring(0,6));
+            file.writeInt(markVal);
+        }
+
+        file.close();
     }
 
-    module_codeVal = Integer.parseInt(module_code.getText());
-    studentNumVal = Integer.parseInt(studentNum.getText());
-
-    }
-
-    
 
 
 
-
-  //  }
+    //  }
 }
